@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>12/25 虹衫 耶誕交換禮物抽籤</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font-family:-apple-system,"PingFang TC","Noto Sans TC",sans-serif;
+background:radial-gradient(circle at 50% 0%,#1f4d3a 0%,#0e2219 60%,#08140f 100%);color:#fff;display:flex;justify-content:center;padding:28px 18px 40px}
+.wrap{width:100%;max-width:420px;text-align:center}
+h1{font-size:26px;margin:6px 0 4px;letter-spacing:1px}
+.sub{color:#cfe3d6;font-size:14px;margin-bottom:22px}
+.card{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:20px;padding:24px 20px}
+label{display:block;font-size:15px;margin-bottom:10px;color:#f3e6c4}
+input{width:100%;font-size:18px;padding:14px;border-radius:12px;border:2px solid #d9b45a;background:#fffaf0;color:#222;text-align:center;outline:none}
+button{margin-top:16px;width:100%;font-size:18px;font-weight:700;padding:14px;border:none;border-radius:12px;background:linear-gradient(#e0473f,#b8231c);color:#fff;box-shadow:0 4px 0 #7d140f}
+button:active{transform:translateY(3px);box-shadow:0 1px 0 #7d140f}
+button:disabled{opacity:.6}
+.msg{min-height:22px;margin-top:12px;font-size:14px;color:#ffb4a8}
+.slot{margin:18px auto 6px;height:84px;border-radius:16px;background:#fffaf0;color:#b8231c;font-size:34px;font-weight:800;display:flex;align-items:center;justify-content:center;border:3px dashed #d9b45a}
+.result{display:none}
+.result p{margin:8px 0;color:#f3e6c4}
+.big{font-size:15px;color:#cfe3d6;margin-top:14px;line-height:1.6}
+.names{margin-top:18px;font-size:13px;color:#9fbfae;line-height:1.8}
+.tree{font-size:44px}
+.again{background:transparent;border:1px solid rgba(255,255,255,.3);box-shadow:none;font-size:15px;font-weight:500}
+</style></head><body><div class="wrap">
+<div class="tree">🎄🎁</div>
+<h1>耶誕交換禮物抽籤</h1>
+<div class="sub">12/25 虹衫 · 每人只抽一次，不會抽到自己</div>
+<div class="card" id="ask">
+<label for="nm">請輸入你自己的名字</label>
+<input id="nm" placeholder="例如：小宇" autocomplete="off">
+<button id="go">抽籤 🎅</button>
+<div class="msg" id="msg"></div>
+<div class="names">參加名單：<span id="list"></span></div>
+<div class="names" id="chk"></div>
+</div>
+<div class="card result" id="res">
+<p id="who"></p>
+<div class="slot" id="slot">?</div>
+<p class="big" id="note"></p>
+<button class="again" id="back" style="display:none">換下一位抽</button>
+</div>
+<div style="margin-top:28px"><a href="#" id="adm" style="color:#7f9f8e;font-size:12px">主辦人查看完整名單</a></div>
+<div class="card" id="admbox" style="display:none;margin-top:12px">
+<label>主辦人密碼</label>
+<input id="pw" type="password" inputmode="numeric" placeholder="輸入密碼">
+<p class="big" style="font-size:13px">⚠️ 打開後會看到所有人的配對，包括誰抽到你。</p>
+<button id="pwgo">查看完整名單</button>
+<div class="msg" id="pwmsg"></div>
+<div id="full" style="text-align:left;margin-top:14px;line-height:2;font-size:16px"></div>
+</div>
+</div>
+<script>
+const K=238,E="ldcZiYP5n6zOlqYZeGlys+Pwid3MaRg+tLGEiVcdZyBifTRSRtPC3yToubAABRAV2+jncWBBSofa4GMuN3AoHYyZnOEvfHP/o6fWwSIr9aeRwIK0GG1obbPt647c/qK9rrd6OypUAhLk4fT5B1l/ElCC5JObxIGpFAdkabfT6Y/pxpQ4GLO0v4RLLDsnc3315MXOFl6m76O+9ZWHEBVgZab5wYTP1JH3PK+uu4BMADhba0s7WmANRnDfKCsw8LyxDA8cYa/8838jJ1ZXoqt0KgtAAgVSUXnt7P3GAm5vIno=";
+const names=["劉至軒","大笨豬","孫","孫 EJ","小宇","小宇老婆","昀庭","謝祥鈺","霖","何家萱"];
+const alias={"文魚":"小宇老婆","小宇女朋友":"小宇老婆","家萱":"何家萱","joyce":"何家萱","何家萱joyce":"何家萱","家萱joyce":"何家萱"};
+function decode(){const b=atob(E);const u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i)^((K+i*7)%256);return JSON.parse(new TextDecoder().decode(u));}
+const norm=s=>s.replace(/[\s🐟]/g,"").toLowerCase();
+function find(s){const n=norm(s);if(!n)return null;for(const x of names)if(norm(x)===n)return x;return alias[n]||null;}
+document.getElementById("list").textContent=names.join("、");
+try{const m=decode(),v=Object.values(m);const ok=names.every(n=>m[n]&&m[n]!==n&&names.includes(m[n]))&&new Set(v).size===names.length&&v.length===names.length;
+document.getElementById("chk").textContent=ok?"✅ 系統檢查：10 人各對到 1 人，沒有重複、沒有抽到自己":"⚠️ 配對檢查異常，請通知主辦人";}catch(e){}
+const $=id=>document.getElementById(id);
+$("go").onclick=()=>{
+ const me=find($("nm").value);
+ if(!me){$("msg").textContent="找不到這個名字，請輸入上面名單裡的名字";return;}
+ const target=decode()[me];
+ $("ask").style.display="none";$("res").style.display="block";
+ $("who").textContent=me+"，你抽到的交換禮物對象是…";
+ const slot=$("slot");const pool=names.filter(x=>x!==me);let t=0,d=50;
+ (function spin(){slot.textContent=pool[Math.floor(Math.random()*pool.length)];t++;d*=1.08;
+  if(t<30)setTimeout(spin,d);else{slot.textContent="🎁 "+target;
+   $("note").textContent="記得保密，不要說出去喔！12/25 準備好送給 "+target+" 的禮物 🎄";$("back").style.display="block";}})();
+};
+$("adm").onclick=e=>{e.preventDefault();const b=$("admbox");b.style.display=b.style.display==="none"?"block":"none";};
+async function sha(t){const d=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(t));return [...new Uint8Array(d)].map(x=>x.toString(16).padStart(2,"0")).join("");}
+$("pwgo").onclick=async()=>{if(await sha($("pw").value.trim())!=="6ecf763ff6e7cef7b47e6611e1bf76fe2608a2e32a97b2d88b083ae1d8d02c82"){$("pwmsg").textContent="密碼錯誤";return;}
+$("pwmsg").textContent="";const m=decode();$("full").innerHTML=names.map(n=>"🎁 "+n+" → <b>"+m[n]+"</b>").join("<br>");};
+$("nm").addEventListener("keydown",e=>{if(e.key==="Enter")$("go").click();});
+$("back").onclick=()=>{$("res").style.display="none";$("ask").style.display="block";$("nm").value="";$("msg").textContent="";$("note").textContent="";$("back").style.display="none";$("slot").textContent="?";};
+</script></body></html>
