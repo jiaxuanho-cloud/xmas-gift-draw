@@ -52,9 +52,9 @@ button:disabled{opacity:.6}
 </div>
 </div>
 <script>
-const K=238,E="ldcZiYP5n6zOlqYZeGlys+Pwid3MaRg+tLGEiVcdZyBifTRSRtPC3yToubAABRAV2+jncWBBSofa4GMuN3AoHYyZnOEvfHP/o6fWwSIr9aeRwIK0GG1obbPt647c/qK9rrd6OypUAhLk4fT5B1l/ElCC5JObxIGpFAdkabfT6Y/pxpQ4GLO0v4RLLDsnc3315MXOFl6m76O+9ZWHEBVgZab5wYTP1JH3PK+uu4BMADhba0s7WmANRnDfKCsw8LyxDA8cYa/8838jJ1ZXoqt0KgtAAgVSUXnt7P3GAm5vIno=";
-const names=["劉至軒","大笨豬","孫","孫 EJ","小宇","小宇老婆","昀庭","謝祥鈺","霖","何家萱"];
-const alias={"文魚":"小宇老婆","小宇女朋友":"小宇老婆","家萱":"何家萱","joyce":"何家萱","何家萱joyce":"何家萱","家萱joyce":"何家萱"};
+const K=238,E="ldcZiYP5n6zOlqYZeGlys+Pwid3MaRg+tLGEieDAoans7/zBD1xT3SotNv6PghINHmek/8eGzcqf9T6pvrmCQgMenIaA8+L/xAhEdOenlzUyBQ7Wis6t4dF/XktQnxgHay8xgYaRmlp2QjF1ZQFwdhusijEgAQrKvLSszOGx2/VMWVyhbAkYehwAloHi64Kuv4vO39oj4KOL+oGO27H6ZXR1foba/p3RAWUUGkcANpWS5e46RnfK1dbf4aa5OWVtDBkcYa7szbrI25zrM6uqt7xMMCWYvA==";
+const names=["劉至軒","Ryan","孫","孫 EJ","小宇","小宇老婆","昀庭","謝祥鈺","霖","何家萱"];
+const alias={"大笨豬":"Ryan","文魚":"小宇老婆","小宇女朋友":"小宇老婆","家萱":"何家萱","joyce":"何家萱","何家萱joyce":"何家萱","家萱joyce":"何家萱"};
 function decode(){const b=atob(E);const u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i)^((K+i*7)%256);return JSON.parse(new TextDecoder().decode(u));}
 const norm=s=>s.replace(/[\s🐟]/g,"").toLowerCase();
 function find(s){const n=norm(s);if(!n)return null;for(const x of names)if(norm(x)===n)return x;return alias[n]||null;}
